@@ -1,0 +1,8 @@
+{
+  "name": "lumina-functions",
+  "version": "1.0.0",
+  "description": "Netlify serverless functions voor LUMINA AI — aangedreven door Groq",
+  "dependencies": {
+    "groq-sdk": "^0.7.0"
+  }
+}
