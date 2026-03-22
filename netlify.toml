@@ -1,0 +1,24 @@
+[build]
+  # De map met de Netlify functions
+  functions = "netlify/functions"
+
+  # Er is geen aparte build stap nodig — de HTML/CSS/JS files zijn al klaar
+  publish = "."
+
+[functions]
+  # Elke function heeft zijn eigen node_modules (voor de @anthropic-ai/sdk package)
+  node_bundler = "esbuild"
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    # Security headers
+    X-Frame-Options = "DENY"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+
+[[headers]]
+  for = "/sw.js"
+  [headers.values]
+    # Service worker mag niet gecached worden door de browser
+    Cache-Control = "no-cache"

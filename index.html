@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LUMINA — Vijf Zielen. Één AI.</title>
+  <meta name="description" content="LUMINA is een AI met vijf unieke zielen: ECHO, ORACLE, FORGE, WEAVE en CHAOS. Jouw persoonlijke AI-metgezel." />
+  <link rel="manifest" href="/manifest.json" />
+  <link rel="apple-touch-icon" href="/icons/icon-192.png" />
+  <meta name="theme-color" content="#050508" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #050508;
+      --bg2: #0a0a12;
+      --text: #f0ede8;
+      --text-dim: #8a8598;
+      --gold: #c9a84c;
+      --gold-glow: rgba(201,168,76,0.15);
+      --echo: #4fc3f7;
+      --oracle: #a78bfa;
+      --forge: #fb923c;
+      --weave: #34d399;
+      --chaos: #f472b6;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Outfit', sans-serif;
+      font-weight: 300;
+      overflow-x: hidden;
+    }
+
+    /* ── Canvas background ── */
+    #cosmos {
+      position: fixed; inset: 0; z-index: 0;
+      pointer-events: none;
+    }
+
+    /* ── Aurora orbs ── */
+    .aurora {
+      position: fixed; inset: 0; z-index: 0; pointer-events: none;
+      overflow: hidden;
+    }
+    .orb {
+      position: absolute; border-radius: 50%;
+      filter: blur(120px); opacity: 0.18;
+      animation: drift 20s ease-in-out infinite alternate;
+    }
+    .orb1 { width: 700px; height: 700px; background: var(--oracle); top: -200px; left: -200px; animation-duration: 25s; }
+    .orb2 { width: 500px; height: 500px; background: var(--echo);   bottom: -150px; right: -100px; animation-duration: 18s; animation-delay: -8s; }
+    .orb3 { width: 400px; height: 400px; background: var(--gold);   top: 40%; left: 50%; transform: translateX(-50%); animation-duration: 22s; animation-delay: -5s; }
+
+    @keyframes drift {
+      0%   { transform: translate(0,0) scale(1); }
+      50%  { transform: translate(60px, -40px) scale(1.1); }
+      100% { transform: translate(-40px, 60px) scale(0.95); }
+    }
+
+    /* ── All content above canvas ── */
+    nav, main, footer { position: relative; z-index: 1; }
+
+    /* ── NAV ── */
+    nav {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.5rem 3rem;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+      backdrop-filter: blur(12px);
+      position: sticky; top: 0; z-index: 100;
+    }
+    .logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.8rem; font-weight: 300;
+      letter-spacing: 0.25em;
+      color: var(--gold);
+      text-decoration: none;
+    }
+    .logo span { font-style: italic; color: var(--text); }
+    .nav-links { display: flex; gap: 2rem; align-items: center; }
+    .nav-links a {
+      color: var(--text-dim); text-decoration: none;
+      font-size: 0.9rem; letter-spacing: 0.05em;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--text); }
+    .btn-launch {
+      background: var(--gold); color: #050508;
+      border: none; padding: 0.6rem 1.4rem;
+      font-family: 'Outfit', sans-serif; font-size: 0.85rem;
+      font-weight: 600; letter-spacing: 0.08em;
+      cursor: pointer; text-decoration: none;
+      transition: opacity 0.2s, transform 0.2s;
+    }
+    .btn-launch:hover { opacity: 0.85; transform: translateY(-1px); }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 92vh;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      text-align: center;
+      padding: 4rem 2rem;
+    }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      border: 1px solid rgba(201,168,76,0.3);
+      padding: 0.35rem 1rem;
+      font-size: 0.75rem; letter-spacing: 0.12em;
+      color: var(--gold); text-transform: uppercase;
+      margin-bottom: 2.5rem;
+    }
+    .hero-badge::before {
+      content: ''; width: 6px; height: 6px;
+      background: var(--gold); border-radius: 50%;
+      animation: pulse 2s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.7); }
+    }
+    .hero h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(4rem, 10vw, 9rem);
+      font-weight: 300;
+      line-height: 0.9;
+      letter-spacing: -0.02em;
+      margin-bottom: 1.5rem;
+    }
+    .hero h1 .gold { color: var(--gold); font-style: italic; }
+    .hero-sub {
+      font-size: clamp(1rem, 2.5vw, 1.3rem);
+      font-weight: 300; color: var(--text-dim);
+      max-width: 560px; line-height: 1.7;
+      margin-bottom: 3rem;
+    }
+    .hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; }
+    .btn-primary {
+      background: var(--gold); color: #050508;
+      padding: 0.9rem 2.4rem; border: none;
+      font-family: 'Outfit', sans-serif; font-weight: 600;
+      font-size: 0.95rem; letter-spacing: 0.08em;
+      cursor: pointer; text-decoration: none;
+      transition: all 0.25s;
+    }
+    .btn-primary:hover { opacity: 0.85; transform: translateY(-2px); box-shadow: 0 8px 30px rgba(201,168,76,0.25); }
+    .btn-secondary {
+      background: transparent; color: var(--text);
+      padding: 0.9rem 2.4rem;
+      border: 1px solid rgba(255,255,255,0.12);
+      font-family: 'Outfit', sans-serif; font-weight: 400;
+      font-size: 0.95rem; letter-spacing: 0.08em;
+      cursor: pointer; text-decoration: none;
+      transition: all 0.25s;
+    }
+    .btn-secondary:hover { border-color: rgba(255,255,255,0.3); transform: translateY(-2px); }
+    #installBtn { display: none; }
+
+    /* ── SOULS SECTION ── */
+    .section { padding: 7rem 2rem; max-width: 1200px; margin: 0 auto; }
+    .section-label {
+      font-size: 0.75rem; letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 1rem;
+    }
+    .section-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      font-weight: 300; line-height: 1.15;
+      margin-bottom: 1rem;
+    }
+    .section-title em { font-style: italic; color: var(--gold); }
+    .section-desc {
+      color: var(--text-dim); font-size: 1rem;
+      max-width: 500px; line-height: 1.8;
+      margin-bottom: 4rem;
+    }
+    .souls-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 1.5rem;
+    }
+    .soul-card {
+      border: 1px solid rgba(255,255,255,0.07);
+      padding: 2rem 1.5rem;
+      background: rgba(255,255,255,0.02);
+      backdrop-filter: blur(10px);
+      cursor: pointer;
+      transition: all 0.3s;
+      position: relative;
+      overflow: hidden;
+      text-decoration: none;
+      color: inherit;
+      display: block;
+    }
+    .soul-card::before {
+      content: '';
+      position: absolute; inset: 0;
+      opacity: 0; transition: opacity 0.3s;
+    }
+    .soul-card:hover { transform: translateY(-6px); }
+    .soul-card.echo   { --soul-clr: var(--echo); }
+    .soul-card.oracle { --soul-clr: var(--oracle); }
+    .soul-card.forge  { --soul-clr: var(--forge); }
+    .soul-card.weave  { --soul-clr: var(--weave); }
+    .soul-card.chaos  { --soul-clr: var(--chaos); }
+    .soul-card:hover { border-color: var(--soul-clr); box-shadow: 0 0 40px rgba(var(--soul-clr-rgb), 0.1); }
+    .soul-card.echo:hover   { box-shadow: 0 8px 40px rgba(79,195,247,0.15); }
+    .soul-card.oracle:hover { box-shadow: 0 8px 40px rgba(167,139,250,0.15); }
+    .soul-card.forge:hover  { box-shadow: 0 8px 40px rgba(251,146,60,0.15); }
+    .soul-card.weave:hover  { box-shadow: 0 8px 40px rgba(52,211,153,0.15); }
+    .soul-card.chaos:hover  { box-shadow: 0 8px 40px rgba(244,114,182,0.15); }
+
+    .soul-icon {
+      font-size: 2rem; margin-bottom: 1rem;
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 52px; height: 52px;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.03);
+    }
+    .soul-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.6rem; font-weight: 300;
+      letter-spacing: 0.1em; margin-bottom: 0.5rem;
+      color: var(--soul-clr);
+    }
+    .soul-role {
+      font-size: 0.7rem; letter-spacing: 0.15em;
+      text-transform: uppercase; color: var(--text-dim);
+      margin-bottom: 1rem;
+    }
+    .soul-desc {
+      font-size: 0.88rem; color: var(--text-dim);
+      line-height: 1.7;
+    }
+    .soul-tag {
+      display: inline-block; margin-top: 1rem;
+      font-size: 0.7rem; letter-spacing: 0.1em;
+      padding: 0.2rem 0.6rem;
+      border: 1px solid var(--soul-clr);
+      color: var(--soul-clr);
+    }
+
+    /* ── ORACLE HIGHLIGHT ── */
+    .oracle-highlight {
+      margin: 5rem auto;
+      max-width: 1200px;
+      padding: 0 2rem;
+    }
+    .oracle-card {
+      border: 1px solid rgba(167,139,250,0.25);
+      background: rgba(167,139,250,0.04);
+      padding: 3.5rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .oracle-card::after {
+      content: '🔮';
+      position: absolute;
+      font-size: 12rem;
+      right: -1rem;
+      bottom: -2rem;
+      opacity: 0.04;
+      pointer-events: none;
+    }
+    .oracle-card h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.8rem; font-weight: 300;
+      line-height: 1.2; margin-bottom: 1rem;
+    }
+    .oracle-card h2 em { font-style: italic; color: var(--oracle); }
+    .oracle-card p { color: var(--text-dim); line-height: 1.8; margin-bottom: 1.5rem; }
+    .life-map-preview {
+      background: rgba(167,139,250,0.06);
+      border: 1px solid rgba(167,139,250,0.15);
+      padding: 1.5rem;
+    }
+    .timeline-item {
+      display: flex; gap: 1rem; align-items: flex-start;
+      padding: 0.8rem 0;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
+    .timeline-item:last-child { border-bottom: none; }
+    .timeline-dot {
+      width: 10px; height: 10px; border-radius: 50%;
+      background: var(--oracle); flex-shrink: 0; margin-top: 5px;
+      box-shadow: 0 0 8px var(--oracle);
+    }
+    .timeline-content small {
+      font-size: 0.7rem; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--oracle);
+    }
+    .timeline-content p {
+      font-size: 0.85rem; color: var(--text-dim);
+      margin: 0; line-height: 1.5;
+    }
+
+    /* ── PRICING ── */
+    .pricing-section { padding: 7rem 2rem; }
+    .pricing-section .inner { max-width: 1100px; margin: 0 auto; }
+    .pricing-header { text-align: center; margin-bottom: 4rem; }
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 1.5rem;
+    }
+    .price-card {
+      border: 1px solid rgba(255,255,255,0.07);
+      padding: 2.5rem 2rem;
+      background: rgba(255,255,255,0.02);
+      position: relative;
+      transition: all 0.3s;
+    }
+    .price-card:hover { transform: translateY(-4px); border-color: rgba(255,255,255,0.15); }
+    .price-card.featured {
+      border-color: var(--gold);
+      background: rgba(201,168,76,0.04);
+    }
+    .price-card.featured::before {
+      content: 'MEEST POPULAIR';
+      position: absolute; top: -1px; left: 50%; transform: translateX(-50%);
+      background: var(--gold); color: #050508;
+      font-size: 0.65rem; font-weight: 700; letter-spacing: 0.12em;
+      padding: 0.25rem 0.75rem;
+    }
+    .price-tier {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.4rem; font-weight: 300;
+      letter-spacing: 0.1em; color: var(--text);
+      margin-bottom: 0.25rem;
+    }
+    .price-tag {
+      font-size: 2.5rem; font-weight: 600;
+      margin: 1rem 0;
+    }
+    .price-tag small { font-size: 0.9rem; font-weight: 300; color: var(--text-dim); }
+    .price-tag .free-tag { color: var(--gold); font-size: 1.8rem; }
+    .price-features {
+      list-style: none; margin: 1.5rem 0 2rem;
+    }
+    .price-features li {
+      font-size: 0.85rem; color: var(--text-dim);
+      padding: 0.45rem 0;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+      display: flex; gap: 0.5rem;
+    }
+    .price-features li::before { content: '—'; color: var(--gold); flex-shrink: 0; }
+    .btn-plan {
+      width: 100%; padding: 0.8rem;
+      background: transparent;
+      border: 1px solid rgba(255,255,255,0.15);
+      color: var(--text); cursor: pointer;
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.85rem; letter-spacing: 0.08em;
+      transition: all 0.25s; text-decoration: none;
+      display: block; text-align: center;
+    }
+    .btn-plan:hover { border-color: var(--gold); color: var(--gold); }
+    .price-card.featured .btn-plan {
+      background: var(--gold); color: #050508;
+      border-color: var(--gold); font-weight: 600;
+    }
+    .price-card.featured .btn-plan:hover { opacity: 0.85; }
+
+    /* ── INSTALL ── */
+    .install-section {
+      max-width: 1200px; margin: 0 auto;
+      padding: 5rem 2rem 8rem;
+      text-align: center;
+    }
+    .install-section h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 3rem; font-weight: 300;
+      margin-bottom: 1rem;
+    }
+    .install-section p {
+      color: var(--text-dim); margin-bottom: 3rem;
+      font-size: 1rem; line-height: 1.7;
+    }
+    .install-buttons { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+    .btn-install {
+      display: flex; align-items: center; gap: 0.8rem;
+      padding: 1rem 2rem;
+      border: 1px solid rgba(255,255,255,0.15);
+      background: rgba(255,255,255,0.03);
+      color: var(--text); cursor: pointer;
+      font-family: 'Outfit', sans-serif;
+      text-decoration: none; transition: all 0.25s;
+    }
+    .btn-install:hover { border-color: var(--gold); transform: translateY(-2px); }
+    .btn-install .install-icon { font-size: 1.5rem; }
+    .btn-install .install-text { text-align: left; }
+    .btn-install .install-text small { font-size: 0.65rem; color: var(--text-dim); display: block; letter-spacing: 0.08em; }
+    .btn-install .install-text span { font-size: 0.9rem; font-weight: 500; }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid rgba(255,255,255,0.05);
+      padding: 2rem 3rem;
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 1rem;
+    }
+    footer .logo { font-size: 1.3rem; }
+    footer p { font-size: 0.8rem; color: var(--text-dim); }
+
+    /* ── SCROLL REVEAL ── */
+    .reveal {
+      opacity: 0; transform: translateY(30px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    @media (max-width: 768px) {
+      nav { padding: 1.2rem 1.5rem; }
+      .nav-links a { display: none; }
+      .oracle-card { grid-template-columns: 1fr; }
+      .oracle-card::after { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<canvas id="cosmos"></canvas>
+<div class="aurora">
+  <div class="orb orb1"></div>
+  <div class="orb orb2"></div>
+  <div class="orb orb3"></div>
+</div>
+
+<!-- NAV -->
+<nav>
+  <a href="/" class="logo">LUMI<span>NA</span></a>
+  <div class="nav-links">
+    <a href="#zielen">Zielen</a>
+    <a href="#oracle">Oracle</a>
+    <a href="#prijzen">Prijzen</a>
+    <a href="app.html" class="btn-launch">Open App →</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-badge">AI met vijf zielen — nu beschikbaar</div>
+  <h1>Ont<span class="gold">moet</span><br/>LUMINA</h1>
+  <p class="hero-sub">Geen gewone chatbot. LUMINA heeft vijf unieke zielen — elk met een eigen persoonlijkheid, doel en kracht. Kies jouw ziel. Begin het gesprek.</p>
+  <div class="hero-actions">
+    <a href="app.html" class="btn-primary">Start Gratis →</a>
+    <button class="btn-secondary" id="installBtn">📲 Installeer App</button>
+    <a href="#zielen" class="btn-secondary">Ontdek meer ↓</a>
+  </div>
+</section>
+
+<!-- SOULS -->
+<section class="section" id="zielen">
+  <p class="section-label reveal">De Vijf Zielen</p>
+  <h2 class="section-title reveal">Eén AI. <em>Vijf gezichten.</em></h2>
+  <p class="section-desc reveal">Elke ziel heeft zijn eigen persoonlijkheid, stijl en specialiteit. Wissel tussen hen wanneer je wil.</p>
+
+  <div class="souls-grid">
+    <a href="app.html?soul=echo" class="soul-card echo reveal">
+      <div class="soul-icon">⚡</div>
+      <div class="soul-name">ECHO</div>
+      <div class="soul-role">Jouw dagelijkse gezel</div>
+      <p class="soul-desc">De vriendelijke, slimme versie van LUMINA. ECHO onthoudt wie jij bent en past zijn toon aan op jou.</p>
+      <span class="soul-tag" style="border-color:var(--echo); color:var(--echo);">VRIJ BESCHIKBAAR</span>
+    </a>
+
+    <a href="app.html?soul=oracle" class="soul-card oracle reveal">
+      <div class="soul-icon">🔮</div>
+      <div class="soul-name">ORACLE</div>
+      <div class="soul-role">Jouw toekomst, nu</div>
+      <p class="soul-desc">Vertel ORACLE over je leven. Hij maakt een Life Map: een visuele tijdlijn van jouw mogelijke toekomst met concrete actieplannen.</p>
+      <span class="soul-tag" style="border-color:var(--oracle); color:var(--oracle);">PRO EXCLUSIEF</span>
+    </a>
+
+    <a href="app.html?soul=forge" class="soul-card forge reveal">
+      <div class="soul-icon">🎮</div>
+      <div class="soul-name">FORGE</div>
+      <div class="soul-role">Samen games maken</div>
+      <p class="soul-desc">Van idee naar mechanic, van verhaal naar speelbare text-adventure — FORGE helpt je elke game bouwen.</p>
+      <span class="soul-tag" style="border-color:var(--forge); color:var(--forge);">STARTER+</span>
+    </a>
+
+    <a href="app.html?soul=weave" class="soul-card weave reveal">
+      <div class="soul-icon">📖</div>
+      <div class="soul-name">WEAVE</div>
+      <div class="soul-role">Verhalen en wereldbouw</div>
+      <p class="soul-desc">Je co-schrijver voor boeken, series en fictieve werelden. WEAVE schrijft mét jou, nooit vóór jou.</p>
+      <span class="soul-tag" style="border-color:var(--weave); color:var(--weave);">STARTER+</span>
+    </a>
+
+    <a href="app.html?soul=chaos" class="soul-card chaos reveal">
+      <div class="soul-icon">🎲</div>
+      <div class="soul-name">CHAOS</div>
+      <div class="soul-role">Dagelijkse wildcard</div>
+      <p class="soul-desc">Elke dag een absurde creatieve uitdaging. CHAOS duwt jou buiten je comfortzone — altijd verrassend, nooit saai.</p>
+      <span class="soul-tag" style="border-color:var(--chaos); color:var(--chaos);">PRO EXCLUSIEF</span>
+    </a>
+  </div>
+</section>
+
+<!-- ORACLE HIGHLIGHT -->
+<div class="oracle-highlight" id="oracle">
+  <div class="oracle-card reveal">
+    <div>
+      <p class="section-label">Oracle — De Toekomstziel</p>
+      <h2>Zie <em>waar jij naartoe gaat.</em><br/>Plan hoe je er komt.</h2>
+      <p>ORACLE stelt jou vragen over je dromen, angsten, gewoonten en doelen. Daarna genereert hij een persoonlijke Life Map: een tijdlijn van jouw mogelijke toekomst, opgedeeld per week, maand en jaar — met concrete stappen die jij vandaag kunt zetten.</p>
+      <a href="app.html?soul=oracle" class="btn-primary" style="display:inline-block;">Begin jouw Life Scan →</a>
+    </div>
+    <div class="life-map-preview">
+      <p style="font-size:0.7rem; letter-spacing:0.12em; text-transform:uppercase; color:var(--oracle); margin-bottom:1rem;">Voorbeeld Life Map</p>
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-content">
+          <small>Nu — Week 1</small>
+          <p>Start dagboek bijhouden, 15 min per dag reflecteren op doelen</p>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot" style="background:var(--echo); box-shadow: 0 0 8px var(--echo);"></div>
+        <div class="timeline-content">
+          <small>Maand 1–3</small>
+          <p>Schrijf eerste 3 hoofdstukken van je boek. Routine opbouwen: 500 woorden/dag</p>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot" style="background:var(--weave); box-shadow: 0 0 8px var(--weave);"></div>
+        <div class="timeline-content">
+          <small>Jaar 1</small>
+          <p>Eerste manuscript klaar, uitgevers benaderen, online aanwezigheid opbouwen</p>
+        </div>
+      </div>
+      <div class="timeline-item" style="border:none">
+        <div class="timeline-dot" style="background:var(--gold); box-shadow: 0 0 8px var(--gold);"></div>
+        <div class="timeline-content">
+          <small>Jaar 2–5</small>
+          <p>Gepubliceerd auteur, boekenreeks uitbreiden, fanbase groeien</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PRICING -->
+<section class="pricing-section" id="prijzen">
+  <div class="inner">
+    <div class="pricing-header">
+      <p class="section-label reveal">Abonnementen</p>
+      <h2 class="section-title reveal">Kies jouw <em>niveau.</em></h2>
+    </div>
+    <div class="pricing-grid">
+      <div class="price-card reveal">
+        <div class="price-tier">Free</div>
+        <p style="font-size:0.8rem; color:var(--text-dim);">Voor altijd gratis</p>
+        <div class="price-tag"><span class="free-tag">Gratis</span></div>
+        <ul class="price-features">
+          <li>ECHO ziel (15 berichten/dag)</li>
+          <li>Basis gesprekken</li>
+          <li>Geen sessie-opslag</li>
+        </ul>
+        <a href="app.html" class="btn-plan">Start gratis</a>
+      </div>
+
+      <div class="price-card reveal">
+        <div class="price-tier">Starter</div>
+        <p style="font-size:0.8rem; color:var(--text-dim);">Per maand</p>
+        <div class="price-tag">€4,<small>99/mnd</small></div>
+        <ul class="price-features">
+          <li>ECHO, FORGE & WEAVE</li>
+          <li>100 berichten per dag</li>
+          <li>Sessie-opslag (7 dagen)</li>
+        </ul>
+        <a href="app.html?plan=starter" class="btn-plan">Kies Starter</a>
+      </div>
+
+      <div class="price-card featured reveal">
+        <div class="price-tier">Pro</div>
+        <p style="font-size:0.8rem; color:var(--text-dim);">Per maand</p>
+        <div class="price-tag">€9,<small>99/mnd</small></div>
+        <ul class="price-features">
+          <li>Alle 5 zielen</li>
+          <li>Onbeperkte berichten</li>
+          <li>Sessies exporteren als PDF</li>
+          <li>Volledige Oracle Life Maps</li>
+        </ul>
+        <a href="app.html?plan=pro" class="btn-plan">Kies Pro</a>
+      </div>
+
+      <div class="price-card reveal">
+        <div class="price-tier">Visionary</div>
+        <p style="font-size:0.8rem; color:var(--text-dim);">Per maand</p>
+        <div class="price-tag">€19,<small>99/mnd</small></div>
+        <ul class="price-features">
+          <li>Alles van Pro</li>
+          <li>Oracle Deep Scan rapport (10 pag.)</li>
+          <li>Gepersonaliseerde levensanalyse</li>
+          <li>Prioriteitsondersteuning</li>
+        </ul>
+        <a href="app.html?plan=visionary" class="btn-plan">Kies Visionary</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- INSTALL -->
+<section class="install-section">
+  <p class="section-label reveal">Installeer LUMINA</p>
+  <h2 class="reveal">Altijd bij de hand.<br/>Op elk apparaat.</h2>
+  <p class="reveal">LUMINA werkt als een app op je pc én je telefoon — zonder app store. Gewoon installeren via je browser.</p>
+  <div class="install-buttons reveal">
+    <button class="btn-install" id="installBtnBig">
+      <span class="install-icon">🖥️</span>
+      <div class="install-text">
+        <small>INSTALLEER OP</small>
+        <span>Windows / Mac / Linux</span>
+      </div>
+    </button>
+    <div class="btn-install" style="cursor:default; opacity:0.7">
+      <span class="install-icon">📱</span>
+      <div class="install-text">
+        <small>INSTALLEER OP</small>
+        <span>iOS / Android</span>
+      </div>
+    </div>
+    <a href="app.html" class="btn-install">
+      <span class="install-icon">🌐</span>
+      <div class="install-text">
+        <small>GEBRUIK ALS</small>
+        <span>Web App</span>
+      </div>
+    </a>
+  </div>
+  <p style="margin-top:1.5rem; font-size:0.8rem; color:var(--text-dim);">Tip: op telefoon → open in browser → "Toevoegen aan beginscherm"</p>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <a href="/" class="logo">LUMI<span>NA</span></a>
+  <p>© 2025 LUMINA. Gebouwd met ❤️ en AI.</p>
+</footer>
+
+<script>
+  // ── Stars canvas ──
+  const canvas = document.getElementById('cosmos');
+  const ctx = canvas.getContext('2d');
+  let stars = [];
+
+  function resize() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
+  resize();
+  window.addEventListener('resize', () => { resize(); initStars(); });
+
+  function initStars() {
+    stars = [];
+    for (let i = 0; i < 180; i++) {
+      stars.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        r: Math.random() * 1.2,
+        o: Math.random() * 0.6 + 0.1,
+        speed: Math.random() * 0.3 + 0.05
+      });
+    }
+  }
+  initStars();
+
+  function drawStars() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    stars.forEach(s => {
+      ctx.beginPath();
+      ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(240,237,232,${s.o})`;
+      ctx.fill();
+      s.o += s.speed * 0.01;
+      if (s.o > 0.7 || s.o < 0.05) s.speed *= -1;
+    });
+    requestAnimationFrame(drawStars);
+  }
+  drawStars();
+
+  // ── Scroll reveal ──
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        // Stagger children
+        const parent = e.target;
+        if (parent.classList.contains('souls-grid') || parent.classList.contains('pricing-grid')) {
+          [...parent.children].forEach((child, i) => {
+            setTimeout(() => child.classList.add('visible'), i * 100);
+          });
+        }
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  // ── PWA Install ──
+  let deferredPrompt = null;
+  window.addEventListener('beforeinstallprompt', e => {
+    e.preventDefault();
+    deferredPrompt = e;
+    document.getElementById('installBtn').style.display = 'inline-flex';
+  });
+
+  function installApp() {
+    if (deferredPrompt) {
+      deferredPrompt.prompt();
+      deferredPrompt.userChoice.then(() => { deferredPrompt = null; });
+    } else {
+      alert('Open LUMINA in Chrome of Edge en gebruik de adresbalk knop om te installeren!');
+    }
+  }
+
+  document.getElementById('installBtn').addEventListener('click', installApp);
+  document.getElementById('installBtnBig').addEventListener('click', installApp);
+
+  // ── Service Worker registreren (maakt de PWA installeerbaar) ──
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/sw.js')
+      .then(() => console.log('LUMINA: Service Worker geregistreerd ✓'))
+      .catch(err => console.warn('Service Worker fout:', err));
+  }
+</script>
+</body>
+</html>
